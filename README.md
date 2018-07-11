@@ -1,101 +1,54 @@
 # JavaScript `fetch()` Lab
 
-## Overview
-In this lab, you'll use `fetch()` to get remote data from and write data to GitHub.
+## Problem Statement
+In this lab, you'll use `fetch()` to get remote data from a [Game of Thrones][GoT] API.
+In this lab, we'll be using `fetch()` to send web requests to the [Game of Thrones][GoT] API. We'll make a web request to the API, and in return we will receive a collection of data, structured like a nested hash.
 
-## Introduction
-We're going to use `fetch` to get data from GitHub, fork a repository, and post issues to our forked repository.
+We will take that hash and parse it using iteration and other methods, in order to display some nicely formatted and extremely interesting Game of Thrones info for our user.
 
-Using `fetch` to get remote data after using `XMLHttpRequest` is a little like riding in a convertible with the top down after spending your whole life walking like a sucker.
 
-![mean girls](http://i.giphy.com/4CP58gxwbBy2Q.gif)
+![Game of Thrones Come at Me Gif](https://media.giphy.com/media/3oEjI1erPMTMBFmNHi/giphy.gif)
 
-Getting data from the GitHub API with `fetch` is super simple. If we're just trying to `GET` some JSON, we can do this:
+
+#### What's an API?
+
+An **API**, or application programming interface, is a manner in which companies and organizations, like Twitter or the New York City government, or the super fans behind the Game of Thrones API, expose their data and/or functionality to the public (i.e. talented programmers like yourself) for use. APIs allow us to add important data and functionality to the applications we build. You can think of an API as one way in which data is exposed to us developers for use in our own programs.
+
+Just like we can use JavaScript to send a web request for a web page that is written in HTML, and receive a response that is full of HTML, we can use JavaScript to send a web request to an API and receive a collection of JSON in return.
+
+#### What's JSON?
+**JSON** is a language-agnostic way of formatting data. If we send a web request to the Game of Thrones API, it will return to us a JSON collection of data. With just one easy line of code, we can tell JavaScript to treat that JSON collection as a nested hash. In this way, large and complicated amounts of data can be shared across platforms.
+
+## Objective
+
+1. Use `fetch()` to programmatically make a web request
+
+## Instructions
+
+Getting data from the [Game of Thrones][GoT] API with `fetch()` is a pretty easy process, as we've seen. If we're just trying to `GET` some JSON, we can add the following code to our JavaScript console in the browser:
 
 ```js
-fetch('https://api.github.com/repos/jquery/jquery/commits')
+fetch('https://anapioficeandfire.com/api/books')
   .then(resp => resp.json())
   .then(json => console.log(json));
 ```
 
-Keeping in mind that we can use the `json` method of the `Body` mixin to render our response as JSON, and that each `then` passes its return value to the next `then` as an argument.
+Remember that we can use the `json` method of the `Body` mixin to render our response as JSON, and that each `then` passes its return value to the next `then` as an argument.
 
-### Authentication Token
-GitHub's [v3 API](https://developer.github.com/v3/) uses [OAuth2][GitHub OAuth] for authorization. Setting up the full OAuth2 authorization code grant workflow is beyond the scope of this lab, but it is described well in the GitHub [docs][GitHub OAuth], and I highly recommend you give it a read.
+Our response from the API contains all ten books currently existing in the Game of Thrones series, in a JSON format. 
 
-Fortunately, GitHub also allows you to generate your own personal authorization token that we can use to give us authorized access to the API.
+![Fetch Response from Game of Thrones API](https://curriculum-content.s3.amazonaws.com/web-development/js/ajax/fetch_lab_promises_response.png)
 
-If you already have a personal token that you've been using to make API requests, you can keep using that one. Otherwise, you'll need to generate a new one.
+In this case, since we've logged it to the console, the console is interpreting that format for us into a nicely formatted way that we can read. Since we asked for all the books with the `/books` part of the url, it gave us all the books. APIs have many different variations and can be as customizable as the developer wants them to be. If you're really lucky, there will be robust documentation to go along with the API to help you out and give you a road map to help you figure out how to format your request for information. You will learn a lot more about how to format those requests in the next lab, but for now we'll focus on just getting different kinds of information out of the API. 
 
-To start, go to [github.com/settings/tokens](https://github.com/settings/tokens) and click "Generate new token." Name it something like "Learn.co", and check `repo` scope. Once you generate the token, make sure to copy and paste it somewhere, because once you leave that page, you won't be able to see it again.
+You will need to find in the browser console:
 
-Using the token to [access the API](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-authorization-options-for-oauth-apps/#3-use-the-access-token-to-access-the-api) is a simple matter of creating an `Authorization` header with our request.
+1. All the Houses in Game of Thrones
+2. The 5th book in the series 
+3. The 1031st character in the series
 
-We need to provide our authorization token in order to list our own repositories with this API, so let's add our `Authorization` header (don't forget to assign your token to `const token`).
 
-```js
-const token = 'YOUR_TOKEN_HERE';
 
-fetch('https://api.github.com/user/repos', {
-  headers: {
-    Authorization: `token ${token}`
-  }
-}).then(res => res.json()).then(json => console.log(json));
-```
 
-We just pass the desired headers as part of a second `options` argument to `fetch` and we are in business. Easy as that!
 
-### Getting Past `GET`
-While `GET` operations are straightforward, when we're building out full applications, we often need to use other HTTP verbs, such as `POST`, to write data as well as read it. Luckily, it's very easy to `POST` with `fetch` as well.
-
-Let's look at an example of posting a new comment to a commit with the GitHub API. Replace the commit with a commit from one of your repositories, and use your token if you want to try this out.
-
-```js
-const token = 'YOUR_TOKEN_HERE';
-const postData = {
-  body: 'Great stuff'
-};
-
-fetch('https://api.github.com/repos/:your_ghname/:your_repo/commits/:sha/comments', {
-  method: 'POST',
-  body: JSON.stringify(postData),
-  headers: {
-    Authorization: `token ${token}`
-  }
-}).then(res => console.log(res));
-```
-
-Here we created an object called `postData` that we will pass as a JSON string using `JSON.stringify` in the request `body`. We're also setting the method to `'POST'`, and finally using our `Authorization` header like we did before, since any write action is going to require authorization.
-
-All of these additional settings go in that `options` argument, which is just an object that we can pass as the second argument to `fetch`.
-
-Finally, we can examine the response in our `then` function just the same as we did with a `GET` request.
-
-**Top-tip:** Make sure you read the API documentation carefully! They will often specify which fields are required and which are optional, as well as the format of the request body. GitHub expects JSON data in the body, but another API might want form data (which you can create with `new FormData()` or XML or something else. Always read the docs!
-
-## Instructions
-We're going to be making an app to allow us to fork a repo and create issues on that fork. The basic HTML and JavaScript are provided in `index.html` and `index.js`. Your job will be to follow the instructions and complete the code to make it work. Don't forget to run it in the browser to see it in action, and run the tests to make sure they pass!
-
-You'll need to read the GitHub API documentation to see how each function works.
-
-***Note***: Running it will require that you return your personal token in `getToken()`, however, the tests will **not** pass if you leave your token there, so before you commit and push, make sure you set `return ''` in the `getToken` function. NEVER give out your token or check it into GitHub!
-
-1. Fork [this](https://github.com/learn-co-curriculum/javascript-fetch-lab) repository in the `forkRepo` function. Display the JSON result in the `results` div by calling `showForkedRepo`. Read more about forking in the [GitHub Forks API documentation](https://developer.github.com/v3/repos/forks/). ***You should only be raising issues on your forked copy of the repository — not on the repo owned by learn-co-curriculum***.
-
-2. In `showForkedRepo`, display the repo information in the browser by appending html with a link to the repository url to the DOM.
-
-3. Navigate to your forked repository (using the link in your html!) and enable Issues by clicking on the `Settings` tab and checking `Issues`. They will probably be turned off by default, and the next step won't work so well if they are disabled!
-
-4. Create a new issue for your forked repository with the `createIssue` function. Use the `title` and `body` values from the provided form. After the issue is created, fetch and display a list of all issues associated with your repository on the page. Append them to a div with an id of "issues". Read more about creating issues via API calls in the [GitHub Issues API documentation](https://developer.github.com/v3/issues/).
-
-5. Load it up and watch it work!
-
-![That's so fetch](http://missmonet.net/wp-content/uploads/2014/04/so-fetch-gretchen-xmas-gif.gif)
-
-## Resources
-- [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-- [GitHub API](https://developer.github.com/v3/)
-
-[GitHub OAuth]: https://developer.github.com/v3/oauth_authorizations/
-
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/javascript-fetch-lab' title='JavaScript Fetch Lab'>Javascript Fetch Lab</a> on Learn.co and start learning to code for free.</p>
+end: https://media.giphy.com/media/11clOWGCHzWG7C/giphy.gif
