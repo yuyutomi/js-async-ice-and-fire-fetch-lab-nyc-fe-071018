@@ -78,8 +78,22 @@ You will need to find in the browser console:
 2. The 5th book in the series
 3. The 1031st character in the series
 
+## Deliverables
+
+In `index.js`, there is an empty function, `fetchBooks()`, that is called when
+`index.html` is loaded. To pass this lab, this function should include a fetch
+request to the Game of Thrones API ('https://anapioficeandfire.com/api/books').
+The returned response should be converted to JSON. Call the second function,
+`renderBooks()`, passing in the API's returned JSON data as the argument.
+
+## Conclusion
+
+APIs are powerful tools that can help you leverage the power of the available
+data on the web. Once you feel comfortable using the tools that access the data,
+the world is your oyster!
 
 
 
 
-end: https://media.giphy.com/media/11clOWGCHzWG7C/giphy.gif
+
+![Dancing](https://media.giphy.com/media/11clOWGCHzWG7C/giphy.gif)
