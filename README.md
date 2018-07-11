@@ -47,8 +47,7 @@ You will need to find in the browser console:
 2. The 5th book in the series 
 3. The 1031st character in the series
 
+## Conclusion
+APIs are powerful tools that can help you leverage the power of the available data on the web. Once you feel comfortable using the tools that access the data, the world is your oyster!
 
-
-
-
-end: https://media.giphy.com/media/11clOWGCHzWG7C/giphy.gif
+![Dancing](https://media.giphy.com/media/11clOWGCHzWG7C/giphy.gif)
