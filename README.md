@@ -2,15 +2,9 @@
 
 ## Problem Statement
 
-In this lab, you'll use `fetch()` to get remote data from a [Game of
-Thrones][GoT] API. In this lab, we'll be using `fetch()` to send web requests to
+In this lab, we'll be using `fetch()` to send web requests to
 the [Game of Thrones][GoT] API. We'll make a web request to the API, and in
 return we will receive a collection of data, structured like a nested hash.
-
-We will take that hash and parse it using iteration and other methods, in order
-to display some nicely formatted and extremely interesting Game of Thrones info
-for our user.
-
 
 ![Game of Thrones Come at Me Gif](https://media.giphy.com/media/3oEjI1erPMTMBFmNHi/giphy.gif)
 
@@ -40,7 +34,7 @@ shared across platforms.
 
 ## Objective
 
-1. Use `fetch()` to programmatically make a web request
+* Use `fetch()` to programmatically make a web request
 
 ## Instructions
 
@@ -93,7 +87,7 @@ data on the web. Once you feel comfortable using the tools that access the data,
 the world is your oyster!
 
 
-
-
-
 ![Dancing](https://media.giphy.com/media/11clOWGCHzWG7C/giphy.gif)
+
+[GoT]: https://anapioficeandfire.com/
+
